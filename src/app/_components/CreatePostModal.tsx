@@ -18,11 +18,22 @@ type ModalData = {
 export default function CreatePostModal(props: Props) {
     const {onClose, onSubmit, loading} = props
     const [modalData, setModalData] = useState<ModalData>({content: "", image: undefined})
+    const [error, setError] = useState(false)
 
     const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setModalData(
-            prev => ({...prev, content: e.target.value})
-        )
+        const content = e.target.value.replace(/\s{2,}/g, ' ').trim();
+        if (content.length === 0){
+            e.target.placeholder = "This field is required"
+            setError(true)
+        }else {
+            setError(false)
+            setModalData(
+                prev => ({...prev, content: content})
+            )
+        }
+
+
+
     }
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +48,13 @@ export default function CreatePostModal(props: Props) {
 
     const handleClose = (e: any) => {
         if (e.target.id === "wrapper" || e.target.id === "btn-close") onClose()
+    }
+
+    const handleSubmit = () => {
+        if (!error){
+            onSubmit(modalData)
+        }
+
     }
 
     return (
@@ -66,9 +84,11 @@ export default function CreatePostModal(props: Props) {
                         >x
                         </button>
                     </div>
-                    <textarea rows={7} placeholder={"What do you want to share?"}
-                              className={"w-full border-2 rounded p-2 resize-none"}
-                              onChange={handleContentChange}
+                    <textarea
+                        rows={7}
+                        placeholder={"What do you want to share?"}
+                        className={`w-full border-2 rounded p-2 resize-none ${error ? 'placeholder-red-600' : ''}`}
+                        onChange={handleContentChange}
                     />
                     <div className={"h-[100px] w-[100px] flex-col flex relative"}>
                         <Image
@@ -88,7 +108,7 @@ export default function CreatePostModal(props: Props) {
 
                         </label>
                         <button
-                            onClick={() => onSubmit(modalData)}
+                            onClick={handleSubmit}
                             className={"bg-blue-500 p-2 pl-3 pr-3 text-white font-semibold rounded"}>Share
                         </button>
                     </div>
