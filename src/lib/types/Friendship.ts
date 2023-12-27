@@ -1,0 +1,3 @@
+type Friendship = {
+    participants: string[]
+}
