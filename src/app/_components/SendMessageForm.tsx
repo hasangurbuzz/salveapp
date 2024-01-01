@@ -1,7 +1,7 @@
 import PaperIcon from "@/app/_components/PaperIcon";
-import {ChangeEvent, FormEvent, useState} from "react";
-import {trimString} from "@/lib/util";
+import {FormEvent, useState} from "react";
 import TextInput from "@/app/_components/TextInput";
+import {InputType} from "@/lib/types/InputType";
 
 type Props = {
     onSubmit: (message: string) => void,
@@ -30,6 +30,8 @@ export default function SendMessageForm(props: Props) {
             className={"bg-white space-x-2 p-2 w-full h-14 flex items-center"}>
             <div className={"flex-grow"}>
                 <TextInput
+                    name={"message"}
+                    type={InputType.TEXT}
                     onChange={handleInput}
                     placeholder={"Enter text to send"}
                     value={messageInput}

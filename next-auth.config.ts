@@ -23,16 +23,16 @@ export const authOptions: NextAuthOptions = {
         ),
         Credentials(
             {
-                type:"credentials",
-                name:"credentials",
-                credentials:{
+                type: "credentials",
+                name: "credentials",
+                credentials: {
                     name: {type: "text"},
                     email: {type: "text"}
                 },
                 authorize: async (credentials) => {
                     const imageUrl = await getFileUrl("images", "default_profile.png")
 
-                    const user : User = {
+                    const user: User = {
                         id: generateRandomId(),
                         name: credentials!.name,
                         email: credentials!.email,
@@ -88,7 +88,7 @@ export const authOptions: NextAuthOptions = {
             if (profile) {
                 token.user = await findUserById(user.id)
             }
-            if (user){
+            if (user) {
                 token.user = user
             }
             return token

@@ -48,7 +48,7 @@ export default function Signin() {
     }
 
     const handleEmailLogin = async () => {
-        if (inputsValid){
+        if (inputsValid) {
             await signinUser(
                 state.name,
                 state.email
