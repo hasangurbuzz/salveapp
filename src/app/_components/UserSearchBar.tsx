@@ -1,50 +1,45 @@
 "use client"
 
-import {Fragment, useEffect, useState} from 'react'
+import {Fragment, useState} from 'react'
 import {Combobox, Transition} from '@headlessui/react'
 import useUsers from "@/lib/hooks/useUsers";
 import {User} from "@/lib/types/User";
-import {useRouter} from "next/navigation";
+import RoundedImage from "@/app/_components/RoundedImage";
 
-type Person = {
-    id: number,
-    name: string
+type Props = {
+    onSelect: (user: User) => void,
+    filterCurrentUser?: boolean
 }
-export default function SearchBar() {
 
-
-    const people: User[] = useUsers()
-    const router = useRouter()
-
-    const [selected, setSelected] = useState<User>()
+export default function UserSearchBar(props: Props) {
+    const {onSelect, filterCurrentUser} = props
+    const users: User[] = useUsers(filterCurrentUser)
     const [query, setQuery] = useState('')
-
-    useEffect(() => {
-        if (selected) {
-            router.push(`/profile/${selected.id}`)
-        }
-    }, [selected]);
 
     const filteredPeople =
         query === ''
             ? []
-            : people.filter((person) =>
-                person.name
+            : users.filter((user) =>
+                user.name
                     .toLowerCase()
                     .replace(/\s+/g, '')
                     .includes(query.toLowerCase().replace(/\s+/g, ''))
             ).slice(0, 5)
 
+    const handleSelect = (user: User) => {
+        onSelect(user)
+    }
+
     return (
         <div className="fixed top-16 w-72">
-            <Combobox value={selected} onChange={setSelected}>
+            <Combobox onChange={handleSelect}>
                 <div className="relative mt-1">
                     <div
-                        className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+                        className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-500 sm:text-sm">
                         <Combobox.Input
                             placeholder={"Search people"}
                             className="w-full border-none  py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                            displayValue={(person: Person) => person.name}
+                            displayValue={(user: User) => user.name}
                             onChange={(event) => setQuery(event.target.value)}
                         />
 
@@ -63,18 +58,15 @@ export default function SearchBar() {
                                     Nothing found.
                                 </div>
                             ) : (
-                                filteredPeople.map((person) => (
+                                filteredPeople.map((user) => (
                                     <Combobox.Option
-                                        onClick={(e) => {
-                                            console.log("clicked")
-                                        }}
-                                        key={person.id}
+                                        key={user.id}
                                         className={({active}) =>
-                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                                active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                                            `relative cursor-default select-none py-2 pl-10 pr-4 rounded-lg ${
+                                                active ? 'bg-blue-600 text-white' : 'text-gray-900'
                                             }`
                                         }
-                                        value={person}
+                                        value={user}
                                     >
                                         {({selected, active}) => (
                                             <>
@@ -83,7 +75,12 @@ export default function SearchBar() {
                                 selected ? 'font-medium' : 'font-normal'
                             }`}
                         >
-                          {person.name}
+                          <div className={"flex items-center w-full justify-center space-x-2"}>
+                              <div className={"w-[30px]"}>
+                                  <RoundedImage imageUrl={user.image} alt={""}/>
+                              </div>
+                              <p>{user.name}</p>
+                          </div>
                         </span>
                                                 {selected ? (
                                                     <span

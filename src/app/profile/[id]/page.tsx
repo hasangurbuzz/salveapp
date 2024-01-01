@@ -1,10 +1,10 @@
 import {getUserSession} from "@/lib/session";
 import {redirect} from "next/navigation";
-import {findUserById} from "@/lib/firebase/firestore";
-import Image from "next/image";
-import ProfilePostsSection from "@/app/_components/ProfilePostsSection";
+import ProfilePostsSection from "@/app/_components/sections/ProfilePostsSection";
 import ModifyFriendship from "@/app/_components/ModifyFriendship";
 import {User} from "@/lib/types/User";
+import {findUserById} from "@/lib/firebase/firestore/userService";
+import RoundedImage from "@/app/_components/RoundedImage";
 
 type Params = {
     params: {
@@ -27,15 +27,10 @@ export default async function Profile({params}: Params) {
     return (
         <div className={"flex flex-col items-center bg-gray-200 space-y-2 "}>
             <div
-                className={" w-full grid grid-cols-2 min-h-[300px] pt-16 bg-gray-200 space-x-5 justify-center items-center"}>
+                className={" w-full flex flex-col sm:grid sm:grid-cols-2 min-h-[300px] pt-16 bg-gray-200 space-x-5 justify-center items-center"}>
                 <div className={"col-span-1 items-center flex justify-end "}>
-                    <div className={"relative w-[200px] h-[200px]"}>
-                        <Image
-                            src={user.image}
-                            alt={""}
-                            fill
-                            style={{borderRadius: "5px"}}
-                        />
+                    <div className={"relative w-[100px] h-[100px] sm:w-[200px] sm:h-[200px]"}>
+                        <RoundedImage imageUrl={user.image} alt={""}/>
                     </div>
                 </div>
                 <div className={"col-span-1 space-y-2 flex justify-start flex-col "}>

@@ -12,7 +12,8 @@ export default function FriendsSection(props: Props) {
     const friends = useFriends(user.id)
 
     return (
-        <>
+        <div
+            className={"flex-col col-span-1 overflow-y-auto items-center md:flex hidden overflow-x-hidden bg-gray-200"}>
             {friends.length > 0 &&
                 <>
                     <p className={"font-semibold"}>Your friends</p>
@@ -27,6 +28,6 @@ export default function FriendsSection(props: Props) {
                         friends</p>
                 </div>
             }
-        </>
+        </div>
     )
 }

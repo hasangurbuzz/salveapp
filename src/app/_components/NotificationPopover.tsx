@@ -2,9 +2,10 @@
 
 import {BellIcon} from "@heroicons/react/20/solid";
 import {useEffect, useState} from "react";
-import {findUserById, listenIncomingFriendshipRequests} from "@/lib/firebase/firestore";
 import {friendshipRequestConverter} from "@/lib/firebase/converters";
 import NotificationItem from "@/app/_components/NotificationItem";
+import {listenIncomingFriendshipRequests} from "@/lib/firebase/firestore/friendshipRequestService";
+import {findUserById} from "@/lib/firebase/firestore/userService";
 
 type Props = {
     userId: string
@@ -25,7 +26,7 @@ export default function NotificationPopover(props: Props) {
     }
 
     useEffect(() => {
-        listenIncomingFriendshipRequests(userId, (doc) => {
+        const unsubscribe = listenIncomingFriendshipRequests(userId, (doc) => {
 
             const requests = doc.docs.map(doc => friendshipRequestConverter.fromFirestore(doc, {}))
             if (requests.length > 0) {
@@ -47,6 +48,10 @@ export default function NotificationPopover(props: Props) {
                 setNotifications([])
             }
         })
+
+        return () => {
+            unsubscribe()
+        }
     }, []);
 
     return (

@@ -5,11 +5,12 @@ import {Post} from "@/lib/types/Post";
 import React, {useEffect, useState} from "react";
 import {getFileUrl, uploadFile} from "@/lib/firebase/storage";
 import {User} from "@/lib/types/User";
-import {createPost, listenPosts} from "@/lib/firebase/firestore";
 import {generateRandomId} from "@/lib/util"
 import {Timestamp} from "@firebase/firestore";
 import {postConverter} from "@/lib/firebase/converters";
-import SearchBar from "@/app/_components/SearchBar";
+import UserSearchBar from "@/app/_components/UserSearchBar";
+import {createPost, listenPosts} from "@/lib/firebase/firestore/postService";
+import {useRouter} from "next/navigation";
 
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 }
 
 export default function PostsSection(props: Props) {
+    const router = useRouter()
     const {user} = props
     const [modalState, setModalState] = useState(false)
     const [data, setData] = useState<Post[]>([])
@@ -44,17 +46,23 @@ export default function PostsSection(props: Props) {
     }
 
     useEffect(() => {
-        listenPosts((querySnapshot) => {
+        const unsubscribe = listenPosts((querySnapshot) => {
             if (querySnapshot.docChanges().length === 0) return
             const posts = querySnapshot.docs.map(doc => postConverter.fromFirestore(doc, {}))
             setData(posts)
         })
+
+        return () => {
+            unsubscribe()
+        }
     }, []);
 
     return (
         <div
-            className={"mt-16 bg-gray-200 col-span-5 md:col-span-4 flex flex-col items-center"}>
-            <SearchBar/>
+            className={"mt-16 bg-gray-200 col-span-5 md:col-span-3 flex flex-col items-center"}>
+            <UserSearchBar onSelect={(user) => {
+                router.push(`/profile/${user.id}`)
+            }}/>
 
             <button
                 onClick={() => setModalState(true)}

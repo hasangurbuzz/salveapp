@@ -1,7 +1,7 @@
 "use client"
 import {User} from "@/lib/types/User";
-import Image from "next/image";
 import {useRouter} from "next/navigation";
+import RoundedImage from "@/app/_components/RoundedImage";
 
 
 type Props = {
@@ -19,12 +19,7 @@ export default function FriendListItem(props: Props) {
             }}
         >
             <div className={"relative w-[50px] h-[50px]"}>
-                <Image
-                    src={user.image}
-                    alt={""}
-                    fill
-                    style={{objectFit: "cover"}}
-                />
+                <RoundedImage imageUrl={user.image} alt={""}/>
             </div>
             <span className={"truncate text-black font-semibold md:w-[100px] lg:w-[150px]"}>{user.name}</span>
         </div>

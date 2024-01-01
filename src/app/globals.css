@@ -18,27 +18,24 @@
     }
 }
 
-/* width */
 ::-webkit-scrollbar {
     width: 10px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     background: rgb(114, 176, 255);
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: rgb(37 99 235);
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(30 64 175);
 }
 
 body {
+    @apply bg-gray-200;
 }
 
 .header-button {

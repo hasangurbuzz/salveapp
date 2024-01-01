@@ -39,3 +39,23 @@ export const getRandomColor = (num: number) => {
 
     return colors[index]
 }
+
+export const isDateToday = (date: Date) => {
+    const today = new Date()
+    if (today.getDate() !== date.getDate()) {
+        return false
+    }
+
+    if (today.getMonth() !== date.getMonth()) {
+        return false
+    }
+
+    if (today.getFullYear() !== date.getFullYear()) {
+        return false
+    }
+    return true
+}
+
+export const trimString = (s: string) => {
+    return s.replace(/\s{2,}/g, ' ');
+}

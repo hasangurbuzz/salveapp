@@ -1,7 +1,7 @@
 "use client"
 import {useEffect} from "react";
-import {listenCurrentUser} from "@/lib/firebase/firestore";
 import {User} from "next-auth";
+import {listenCurrentUser} from "@/lib/firebase/firestore/userService";
 
 type Props = {
     user: User

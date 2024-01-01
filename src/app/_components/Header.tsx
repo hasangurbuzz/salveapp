@@ -4,6 +4,9 @@ import {getUserSession} from "@/lib/session";
 import UserContext from "@/app/_components/UserContext";
 import NotificationPopover from "@/app/_components/NotificationPopover";
 import React from "react";
+import HeaderProfileBtn from "@/app/_components/HeaderProfileBtn";
+import {User} from "@/lib/types/User";
+import ChatPopover from "@/app/_components/ChatPopover";
 
 export default async function Header() {
     const user = await getUserSession()
@@ -24,9 +27,21 @@ export default async function Header() {
 
                 <>
                     <div className={"fixed right-0 lg:mr-10 mr-2 flex "}>
+
+                        <ChatPopover user={user as User}/>
+
                         <NotificationPopover userId={user.id}/>
 
-                        <HeaderBtn content={user.name!} className={""} redirectPath={"/profile"}/>
+                        <div className={"sm:flex hidden"}>
+                            <HeaderBtn content={user.name!} className={""} redirectPath={"/profile"}/>
+                        </div>
+
+                        <div
+
+                            className={"sm:hidden flex"}>
+                            <HeaderProfileBtn user={user as User}/>
+                        </div>
+
                     </div>
                 </>
 

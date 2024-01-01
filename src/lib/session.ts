@@ -1,17 +1,19 @@
-import {getServerSession, User} from 'next-auth'
+"use server"
+import {getServerSession} from 'next-auth'
+import {User as UserType} from "@/lib/types/User";
 
 export const session = async ({session, token}: any) => {
     session.user = token.user
     return session
 }
 
-export const getUserSession = async (): Promise<User> => {
+export const getUserSession = async (): Promise<UserType> => {
     const authUserSession = await getServerSession({
         callbacks: {
             session,
         },
     })
-    // if (!authUserSession) throw new Error('unauthorized')
-    return authUserSession?.user
+
+    return authUserSession?.user as UserType
 }
 

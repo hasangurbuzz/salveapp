@@ -1,5 +1,5 @@
 import Image from "next/image";
-import socialImage from "../../../public/landing.jpg";
+import socialImage from "../../../../public/landing.jpg";
 
 export default function Landing() {
     return (

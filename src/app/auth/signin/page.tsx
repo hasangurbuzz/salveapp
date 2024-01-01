@@ -7,6 +7,7 @@ import {signinUser} from "@/lib/auth/authUtil";
 import {useRouter} from "next/navigation";
 
 export default function Signin() {
+    //TODO Convert to css
     const {width} = useWindowDimensions()
     const router = useRouter()
 
@@ -16,7 +17,6 @@ export default function Signin() {
 
         } catch (e) {
             router.push("/auth/signin")
-            console.log("Error occurred try again")
         }
     }
 

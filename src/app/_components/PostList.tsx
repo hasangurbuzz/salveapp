@@ -11,6 +11,7 @@ export default function PostList(props: Props) {
 
     return (
         <div className={"flex flex-col w-full items-center space-y-4"}>
+
             {data.length > 0 &&
                 data.map(
                     (item, count) => {

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import {BtnSignout} from "@/app/_components/BtnSignout";
 import {getUserSession} from "@/lib/session";
+import RoundedImage from "@/app/_components/RoundedImage";
 
 
 export default async function Profile() {
@@ -8,15 +8,9 @@ export default async function Profile() {
 
     return (
         <div
-            className={"pt-24 flex md:flex-row flex-col pl-5 pr-5 space-x-5 min-h-52 items-center justify-center overflow-hidden"}>
-            <div className={"flex items-center relative  w-[400] h-[400] "}>
-                <Image
-                    src={user.image!}
-                    alt={""}
-                    style={{objectFit: "contain", borderRadius: "50px"}}
-                    width={400}
-                    height={400}
-                />
+            className={"pt-24 flex md:flex-row flex-col pl-5 pr-5 space-x-5 min-h-svh items-center justify-center"}>
+            <div className={"sm:w-[200px] w-[100px]"}>
+                <RoundedImage imageUrl={user.image} alt={""}/>
             </div>
             <div className={"flex flex-col space-y-2 mt-4"}>
                 <div className={"flex flex-row"}>

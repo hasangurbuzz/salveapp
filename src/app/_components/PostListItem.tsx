@@ -4,8 +4,8 @@ import Image from "next/image";
 import {getProfileImage} from "@/lib/firebase/storage";
 import {useEffect, useState} from "react";
 import {shimmer, toBase64} from "@/lib/util";
-import error from "@/../public/error.png"
 import {useRouter} from "next/navigation";
+import RoundedImage from "@/app/_components/RoundedImage";
 
 type Props = {
     post: Post
@@ -30,20 +30,21 @@ export default function PostListItem(props: Props) {
                         router.push(`/profile/${post.creatorId}`)
                     }}
                     className={"cursor-pointer flex items-center space-x-1"}>
-                    {creatorImage &&
-                        <div className={"w-[40px] h-[40px] relative"}>
-                            <Image
-                                src={creatorImage!}
-                                alt={""}
-                                fill
-                                style={{borderRadius: "10px", objectFit: "cover"}}
-                                placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
-                                onError={(e) => {
-                                    setCreatorImage(error.src)
-                                }}
-                            />
-                        </div>
-                    }
+
+                    <div className={"w-[40px] h-[40px] relative"}>
+                        {/*<Image*/}
+                        {/*    src={creatorImage!}*/}
+                        {/*    alt={""}*/}
+                        {/*    fill*/}
+                        {/*    style={{borderRadius: "10px", objectFit: "cover"}}*/}
+                        {/*    placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}*/}
+                        {/*    onError={(e) => {*/}
+                        {/*        setCreatorImage(error.src)*/}
+                        {/*    }}*/}
+                        {/*/>*/}
+                        <RoundedImage imageUrl={post.image!} alt={""}/>
+                    </div>
+
                     <p className={"font-semibold"}>{post.creatorName}</p>
                 </div>
                 <div className={"flex flex-col items-center"}>

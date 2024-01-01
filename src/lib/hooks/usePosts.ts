@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {findPostsByUserId} from "@/lib/firebase/firestore";
 import {Post} from "@/lib/types/Post";
+import {findPostsByUserId} from "@/lib/firebase/firestore/postService";
 
 const usePosts = (userId: string) => {
     const [posts, setPosts] = useState<Post[]>([])

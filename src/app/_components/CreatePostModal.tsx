@@ -2,7 +2,7 @@
 import React, {ChangeEvent, useState} from "react";
 import Image from "next/image";
 import placeholder from "@/../public/placeholder.png"
-import {shimmer, toBase64} from "@/lib/util";
+import {shimmer, toBase64, trimString} from "@/lib/util";
 
 
 type Props = {
@@ -21,17 +21,16 @@ export default function CreatePostModal(props: Props) {
     const [error, setError] = useState(false)
 
     const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const content = e.target.value.replace(/\s{2,}/g, ' ').trim();
-        if (content.length === 0){
+        const content = trimString(e.target.value)
+        if (content.length === 0) {
             e.target.placeholder = "This field is required"
             setError(true)
-        }else {
+        } else {
             setError(false)
             setModalData(
                 prev => ({...prev, content: content})
             )
         }
-
 
 
     }
@@ -51,7 +50,7 @@ export default function CreatePostModal(props: Props) {
     }
 
     const handleSubmit = () => {
-        if (!error){
+        if (!error) {
             onSubmit(modalData)
         }
 

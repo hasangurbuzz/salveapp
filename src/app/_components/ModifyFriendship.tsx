@@ -1,15 +1,14 @@
 "use client"
 import {User} from "@/lib/types/User";
-import {
-    createFriendship,
-    createFriendshipRequest,
-    deleteFriendship,
-    deleteFriendshipRequest,
-    listenFriendship,
-    listenFriendshipRequest
-} from "@/lib/firebase/firestore";
+
 import {useEffect, useState} from "react";
 import {friendshipConverter, friendshipRequestConverter} from "@/lib/firebase/converters";
+import {
+    createFriendshipRequest,
+    deleteFriendshipRequest,
+    listenFriendshipRequest
+} from "@/lib/firebase/firestore/friendshipRequestService";
+import {createFriendship, deleteFriendship, listenFriendship} from "@/lib/firebase/firestore/friendshipService";
 
 type Props = {
     user: User,
@@ -27,7 +26,7 @@ export default function ModifyFriendship(props: Props) {
     const [pendingRequest, setPendingRequest] = useState<PendingRequestState>({})
 
     useEffect(() => {
-        listenFriendshipRequest(user.id, currentUser.id, (doc) => {
+        const unsubscribe1 = listenFriendshipRequest(user.id, currentUser.id, (doc) => {
             if (!doc.empty) {
                 const incomingRequest = friendshipRequestConverter.fromFirestore(doc.docs[0], {})
                 setPendingRequest({receivedRequest: incomingRequest})
@@ -39,7 +38,7 @@ export default function ModifyFriendship(props: Props) {
                 }))
             }
         })
-        listenFriendshipRequest(currentUser.id, user.id, (doc) => {
+        const unsubscribe2 = listenFriendshipRequest(currentUser.id, user.id, (doc) => {
             if (!doc.empty) {
                 const sentRequest = friendshipRequestConverter.fromFirestore(doc.docs[0], {})
                 setPendingRequest({sentRequest: sentRequest})
@@ -51,7 +50,7 @@ export default function ModifyFriendship(props: Props) {
                 }))
             }
         })
-        listenFriendship(currentUser.id, (doc) => {
+        const unsubscribe3 = listenFriendship(currentUser.id, (doc) => {
             if (doc.empty) {
                 setIsFriend(false)
             } else {
@@ -64,6 +63,12 @@ export default function ModifyFriendship(props: Props) {
                 }
             }
         })
+
+        return () => {
+            unsubscribe1()
+            unsubscribe2()
+            unsubscribe3()
+        }
     }, []);
 
     const handleSendFriendshipRequest = async () => {

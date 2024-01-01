@@ -1,9 +1,9 @@
 import {NextAuthOptions} from "next-auth";
 import Google from "next-auth/providers/google";
 import {session} from "@/lib/session";
-import {createUser, findUserById} from "@/lib/firebase/firestore";
 import {getFileUrl, getProfileImage, uploadProfileImage} from "@/lib/firebase/storage";
 import {User} from "@/lib/types/User";
+import {createUser, findUserById} from "@/lib/firebase/firestore/userService";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!

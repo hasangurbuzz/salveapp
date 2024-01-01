@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {findFriends} from "@/lib/firebase/firestore";
 import {User} from "@/lib/types/User";
+import {findFriends} from "@/lib/firebase/firestore/friendshipService";
 
 const useFriends = (userId: string) => {
     const [users, setUsers] = useState<User[]>([])
