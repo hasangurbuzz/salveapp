@@ -2,13 +2,10 @@
 import Image from "next/image";
 import googleIcon from "../../../../public/google-xs.svg"
 import authImg from "../../../../public/login-bg.png"
-import useWindowDimensions from "@/lib/hooks/useWindow";
 import {signinUser} from "@/lib/auth/authUtil";
 import {useRouter} from "next/navigation";
 
 export default function Signin() {
-    //TODO Convert to css
-    const {width} = useWindowDimensions()
     const router = useRouter()
 
     const handleGoogle = async () => {
@@ -22,15 +19,14 @@ export default function Signin() {
 
     return (
         <div className={"flex flex-row justify-center items-center"}>
-            {width! > 568 &&
-                <div className={"w-1/2 relative h-screen"}>
-                    <Image
-                        src={authImg}
-                        alt={""}
-                        objectFit={"cover"}
-                        fill/>
+            <div className={"w-1/2 relative h-screen hidden sm:block"}>
+                <Image
+                    src={authImg}
+                    alt={""}
+                    objectFit={"cover"}
+                    fill/>
 
-                </div>}
+            </div>
             <div className={"w-1/2 flex flex-col h-screen justify-around items-center"}>
                 <p className={"text-lg text-center"}>Choose an option to sign in</p>
                 <button className={"flex shadow-md p-2 hover:shadow-lg hover:shadow-gray-600"}
