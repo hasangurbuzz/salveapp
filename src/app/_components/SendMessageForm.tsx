@@ -1,6 +1,7 @@
 import PaperIcon from "@/app/_components/PaperIcon";
 import {ChangeEvent, FormEvent, useState} from "react";
 import {trimString} from "@/lib/util";
+import TextInput from "@/app/_components/TextInput";
 
 type Props = {
     onSubmit: (message: string) => void,
@@ -19,9 +20,8 @@ export default function SendMessageForm(props: Props) {
         }
     }
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        const input = trimString(e.target.value)
-        setMessageInput(input)
+    const handleInput = (message: string) => {
+        setMessageInput(message)
     }
 
     return (
@@ -29,11 +29,11 @@ export default function SendMessageForm(props: Props) {
             onSubmit={handleSubmit}
             className={"bg-white space-x-2 p-2 w-full h-14 flex items-center"}>
             <div className={"flex-grow"}>
-                <input
-                    value={messageInput}
+                <TextInput
                     onChange={handleInput}
                     placeholder={"Enter text to send"}
-                    className={"w-full bg-gray-200 rounded p-2"}/>
+                    value={messageInput}
+                />
             </div>
             <div className={"w-fit"}>
                 <PaperIcon

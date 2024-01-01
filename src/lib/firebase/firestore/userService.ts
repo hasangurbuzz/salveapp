@@ -38,7 +38,6 @@ export const updateProfileImage = async (user: User, image: File) => {
 
 export const createUser = async (user: User) => {
     await setDoc(getDocRef(COL_USERS, user.id, userConverter), user)
-    return true
 }
 
 export const findUserById = async (id: string) => {

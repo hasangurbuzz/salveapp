@@ -1,9 +1,11 @@
 import {NextAuthOptions} from "next-auth";
 import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
 import {session} from "@/lib/session";
 import {getFileUrl, getProfileImage, uploadProfileImage} from "@/lib/firebase/storage";
 import {User} from "@/lib/types/User";
-import {createUser, findUserById} from "@/lib/firebase/firestore/userService";
+import {createUser, findUserByEmail, findUserById} from "@/lib/firebase/firestore/userService";
+import {generateRandomId} from "@/lib/util";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!
@@ -18,6 +20,31 @@ export const authOptions: NextAuthOptions = {
                 clientId: GOOGLE_CLIENT_ID,
                 clientSecret: GOOGLE_CLIENT_SECRET
             }
+        ),
+        Credentials(
+            {
+                type:"credentials",
+                name:"credentials",
+                credentials:{
+                    name: {type: "text"},
+                    email: {type: "text"}
+                },
+                authorize: async (credentials) => {
+                    const imageUrl = await getFileUrl("images", "default_profile.png")
+
+                    const user : User = {
+                        id: generateRandomId(),
+                        name: credentials!.name,
+                        email: credentials!.email,
+                        image: imageUrl
+                    }
+
+                    await createUser(user)
+
+                    return user
+
+                }
+            }
         )
     ],
     callbacks: {
@@ -26,7 +53,7 @@ export const authOptions: NextAuthOptions = {
                 throw new Error("not found")
             }
 
-            const existingUser = await findUserById(user.id)
+            const existingUser = await findUserByEmail(user.email)
             if (existingUser) {
                 return true
             }
@@ -61,13 +88,12 @@ export const authOptions: NextAuthOptions = {
             if (profile) {
                 token.user = await findUserById(user.id)
             }
+            if (user){
+                token.user = user
+            }
             return token
         },
         async redirect({url, baseUrl}) {
-            // Allows relative callback URLs
-            if (url.startsWith("/")) return `${baseUrl}${url}`
-            // Allows callback URLs on the same origin
-            else if (new URL(url).origin === baseUrl) return url
             return baseUrl
         }
 

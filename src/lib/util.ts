@@ -59,3 +59,20 @@ export const isDateToday = (date: Date) => {
 export const trimString = (s: string) => {
     return s.replace(/\s{2,}/g, ' ');
 }
+
+export const isEmailValid = (email: string) => {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email)
+
+    // const regex =/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+    //
+    // const a = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+    // return a.test(email)
+    //
+    // if (email.match(a)) {
+    //     return true
+    // }
+    // return false
+
+}
