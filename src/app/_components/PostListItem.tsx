@@ -32,17 +32,8 @@ export default function PostListItem(props: Props) {
                     className={"cursor-pointer flex items-center space-x-1"}>
 
                     <div className={"w-[40px] h-[40px] relative"}>
-                        {/*<Image*/}
-                        {/*    src={creatorImage!}*/}
-                        {/*    alt={""}*/}
-                        {/*    fill*/}
-                        {/*    style={{borderRadius: "10px", objectFit: "cover"}}*/}
-                        {/*    placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}*/}
-                        {/*    onError={(e) => {*/}
-                        {/*        setCreatorImage(error.src)*/}
-                        {/*    }}*/}
-                        {/*/>*/}
-                        <RoundedImage imageUrl={post.image!} alt={""}/>
+                        {post.image &&
+                            <RoundedImage imageUrl={post.image} alt={""}/>}
                     </div>
 
                     <p className={"font-semibold"}>{post.creatorName}</p>
