@@ -13,14 +13,9 @@ type Props = {
 
 export default function PostListItem(props: Props) {
     const {post} = props
-    const [creatorImage, setCreatorImage] = useState<string>()
     const router = useRouter()
 
 
-    useEffect(() => {
-        getProfileImage(post.creatorId)
-            .then(url => setCreatorImage(url))
-    }, []);
 
     return (
         <div className={"border flex flex-col items-center space-y-1 rounded bg-white p-3 sm:max-w-[500px] w-full"}>
@@ -31,10 +26,11 @@ export default function PostListItem(props: Props) {
                     }}
                     className={"cursor-pointer flex items-center space-x-1"}>
 
-                    <div className={"w-[40px] h-[40px] relative"}>
-                        {post.image &&
-                            <RoundedImage imageUrl={post.image} alt={""}/>}
-                    </div>
+                    {/*User profile image must be loaded here*/}
+                    {/*<div className={"w-[40px] h-[40px] relative"}>*/}
+                    {/*    {post.image &&*/}
+                    {/*        <RoundedImage imageUrl={post.image} alt={""}/>}*/}
+                    {/*</div>*/}
 
                     <p className={"font-semibold"}>{post.creatorName}</p>
                 </div>
