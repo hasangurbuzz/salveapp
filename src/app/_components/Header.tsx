@@ -7,6 +7,8 @@ import React from "react";
 import HeaderProfileBtn from "@/app/_components/HeaderProfileBtn";
 import {User} from "@/lib/types/User";
 import ChatPopover from "@/app/_components/ChatPopover";
+import salveIcon from "@/../public/salve.png"
+import Image from "next/image";
 
 export default async function Header() {
     const user = await getUserSession()
@@ -17,7 +19,10 @@ export default async function Header() {
             {user && <UserContext user={user}/>}
             <div className={"lg:ml-10 ml-2 fixed left-0"}>
                 <Link className={"text-2xl font-semibold"} href={"/"}>
-                    Salve
+                   <div className={"flex items-center"}>
+                       <Image src={salveIcon} alt={"Salve"}/>
+                       Salve
+                   </div>
                 </Link>
 
 
