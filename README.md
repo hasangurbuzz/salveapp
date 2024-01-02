@@ -7,3 +7,4 @@ Salve is a social media app developed with React, NextJS
 - Share images and posts
 - Send realtime messages
 
+[Click to navigate website](https://salveapp.vercel.app/)
