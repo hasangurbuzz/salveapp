@@ -1,4 +1,4 @@
-Salve is a social media app developed with React, NextJS.
+## Salve is a social media app developed with React, NextJS.
 
 <img src="https://raw.githubusercontent.com/hasangurbuzz/salveapp/master/img/salve.png" alt="">
 
